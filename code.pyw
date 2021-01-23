@@ -1,7 +1,7 @@
 import tkinter,sys,os,json,tkinter.filedialog
-if "examples" not os.path.isdir("examples"):
+if "examples" not in os.listdir() or not os.path.isdir("examples"):
     os.mkdir("examples")
-if "settings.json" not os.path.isfile("settings.json"):
+if "settings.json" not in os.listdir() or not os.path.isfile("settings.json"):
     settings = open("settings.json","w")
     json.dump({"Python path":"python.exe"},settings)
     settings.close()
