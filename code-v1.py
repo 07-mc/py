@@ -12,6 +12,7 @@ main = tkinter.Tk()
 class File():
     def __init__(self):
         self.fn = None
+        self.test = 0
     def open(self):
         fn = tkinter.filedialog.askopenfilename(initialdir='.',title='打开文件',filetypes=("Python代码文件 *.py","Python代码文件 *.pyw"))
         if not fn.endswith(".py") and not fn.endswith(".pyw"):
@@ -37,13 +38,18 @@ class File():
     def reset(self):
         global text
         self.fn = None
+        self.test = 0
         text.delete("0.0","end")
     def run(self):
         self.save()
+        self.test += 1
+        print(str(self.test) + " ) " + self.fn)
         os.system(settings["Python path"] + " " + self.fn)
+        print("\n")
 f = File()
 main.title("Python代码编辑器")
 tkinter.Label(main,text = "操作:").pack()
+tkinter.Button(main,text = "新建",command = f.reset).pack()
 tkinter.Button(main,text = "打开",command = f.open).pack()
 tkinter.Button(main,text = "保存",command = f.save).pack()
 tkinter.Button(main,text = "运行",command = f.run).pack()
