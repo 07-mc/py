@@ -29,7 +29,7 @@ class File():
                 fn += ".py"
             self.fn = fn
             file = open(self.fn,"w",encoding = "utf-8")
-            file.write(text.get("0.0","end"))
+            file.write(text.get("0.0","end").lstrip().rstrip())
             file.close()
             path = self.fn.split("/")
             dir = ""
@@ -76,6 +76,3 @@ for file in os.listdir("examples"):
                 text.insert("insert",self.string)
         tkinter.Button(main,text = file.split(".py")[0],command = Str(string).insert).pack()
 main.mainloop()
-
-
-
