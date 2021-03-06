@@ -39,6 +39,7 @@ class File():
             file = open(self.fn,"w",encoding = "utf-8")
             file.write(text.get("0.0","end"))
             file.close()
+        os.chdir(re.match("(.*)/{}".format(self.fn.split("/")[-1]),self.fn).group(1))
     def reset(self):
         global text
         self.fn = ""
