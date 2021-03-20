@@ -1,4 +1,4 @@
-﻿import tkinter,sys,os,json,tkinter.filedialog
+﻿import tkinter,sys,re,os,json,tkinter.filedialog
 if "examples" not in os.listdir() or not os.path.isdir("examples"):
     os.mkdir("examples")
 if "settings.json" not in os.listdir() or not os.path.isfile("settings.json"):
@@ -9,6 +9,7 @@ s = open("settings.json")
 settings = json.load(s)
 s.close()
 main = tkinter.Tk()
+main.resizable(0,0)
 class File():
     def __init__(self):
         self.fn = ""
@@ -24,6 +25,7 @@ class File():
         text.delete("0.0","end")
         text.insert("end",file.read())
         file.close()
+        main.title("Python代码编辑器 - {}".format(self.fn))
     def save(self):
         if self.fn == "":
             fn = tkinter.filedialog.asksaveasfilename(initialdir='.', title='保存文件', filetypes=("Python代码文件 *.py","Python代码文件 *.pyw"))
@@ -40,11 +42,13 @@ class File():
             file.write(text.get("0.0","end"))
             file.close()
         os.chdir(re.match("(.*)/{}".format(self.fn.split("/")[-1]),self.fn).group(1))
+        main.title("Python代码编辑器 - {}".format(self.fn))
     def reset(self):
         global text
         self.fn = ""
         self.test = 0
         text.delete("0.0","end")
+        main.title("Python代码编辑器")
     def run(self):
         self.save()
         if not self.fn:
@@ -53,6 +57,8 @@ class File():
         print(str(self.test) + " ) " + self.fn)
         os.system(settings["Python path"] + " " + self.fn)
         print("\n")
+    def show(self):
+        os.startfile(".")
 f = File()
 main.title("Python代码编辑器")
 tkinter.Label(main,text = "操作:").pack()
@@ -60,6 +66,7 @@ tkinter.Button(main,text = "新建",command = f.reset).pack()
 tkinter.Button(main,text = "打开",command = f.open).pack()
 tkinter.Button(main,text = "保存",command = f.save).pack()
 tkinter.Button(main,text = "运行",command = f.run).pack()
+tkinter.Button(main,text = "打开文件夹",command = f.show).pack()
 tkinter.Label(main,text = "代码:").pack()
 text = tkinter.Text(main)
 text.pack()
@@ -77,7 +84,3 @@ for file in os.listdir("examples"):
                 text.insert("insert",self.string)
         tkinter.Button(main,text = file.split(".py")[0],command = Str(string).insert).pack()
 main.mainloop()
-
-
-
-
